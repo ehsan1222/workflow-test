@@ -11,12 +11,16 @@ branches:
   only:
     - master
 
-addons:
-  sonarcloud:
-    organization: "ehsan1222"
-    token:
-      secure: ${TRAVIS_CI_SECRET} # encrypted value of your token
+cache:
+  directories:
+    - $HOME/.m2
 
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=ehsan1222_workflow-test
+  - mvn clean compile > /dev/null 2>&1
+  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent test
+
+env:
+  - CODECOV_TOKEN=${CODECOV_TOKEN}
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
