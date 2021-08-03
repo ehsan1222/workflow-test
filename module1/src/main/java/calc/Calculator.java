@@ -1,4 +1,4 @@
-package com.github.ehsan1222.workflowtest.calc;
+package calc;
 
 public class Calculator {
 
